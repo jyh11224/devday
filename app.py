@@ -63,14 +63,32 @@ def plot_power_plants(df_combined, num_plots):
     plt.tight_layout()
     st.pyplot(fig)
 
+
+def main():
+    # Read and preprocess data
+    df_combined = read_data()
+
+    # Streamlit App
+    st.title('Power Plant Time Series Visualization')
+    
+    # Show data table if needed
+    # st.dataframe(df_combined)
+
+    # Plot power plants
+    numplots = 9
+    plot_power_plants(df_combined, numplots)
+
+if __name__ == '__main__':
+    main()
+
 ############################ 수정필요 ####################################
 df_combined["hour"] = df_combined['datetime'].dt.hour
 df_pivot = df_combined.pivot(index='datetime', columns='발전소코드', values='gap')
 df_pivot = df_pivot.reset_index()
 df_pivot["hour"] = df_pivot['datetime'].astype("datetime64").dt.hour
-df_pivot
+
 df_pivot = df_pivot.drop(columns=['datetime']).groupby('hour').mean()
-df_pivot
+st.write(df_pivot)
 
 # 발전소 코드 리스트
 plant_list = df_error['발전소코드'].tolist()
@@ -171,19 +189,3 @@ p = pd.DataFrame(zip(plant_list,fancy_names_for_labels),columns=["plant code","C
 p = p.sort_index()
 ####################################################################
 
-def main():
-    # Read and preprocess data
-    df_combined = read_data()
-
-    # Streamlit App
-    st.title('Power Plant Time Series Visualization')
-    
-    # Show data table if needed
-    # st.dataframe(df_combined)
-
-    # Plot power plants
-    numplots = 9
-    plot_power_plants(df_combined, numplots)
-
-if __name__ == '__main__':
-    main()
