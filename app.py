@@ -72,6 +72,12 @@ df = df.astype(dtype_mapping)
 time_columns = df.columns[4:28]
 time_columns
 
+# 일자와 시간의 값을 합치고 datetime 컬럼 생성
+df['date'] = pd.to_datetime(df['일자'])
+time_columns = df.columns[4:28]
+df2 = df.melt(id_vars=['일자', '구분1', '발전소코드', '발전소용량(KW)'], value_vars=time_columns, var_name='hour', value_name='value')
+df2['datetime'] = pd.to_datetime(df2['일자'].astype(str) + ' ' + df2['hour'], format='%Y-%m-%d %H')
+
 df_combined = df2.pivot(index=['datetime', '발전소코드', '발전소용량(KW)'], columns='구분1', values='value').reset_index()
 df_combined['gap'] = abs((df_combined['실측'] - df_combined['예측'])) / df_combined['발전소용량(KW)'] * 100
 df_combined['actual_average'] = df_combined['실측']
