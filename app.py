@@ -31,10 +31,10 @@ from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage
 
 # 한글 폰트 설정 (에러가 날시에는 아래 3줄 주석처리)
-!sudo apt-get install -y fonts-nanum
-!sudo fc-cache -fv
-!rm ~/.cache/matplotlib -rf
-plt.rc('font', family='NanumGothic')
+# !sudo apt-get install -y fonts-nanum
+# !sudo fc-cache -fv
+# !rm ~/.cache/matplotlib -rf
+# plt.rc('font', family='NanumGothic')
 
 
 # warnings 무시
