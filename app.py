@@ -49,7 +49,7 @@ all_mySeries = []
 actual_mySeries = []
 predict_mySeries = []
 
-df = pd.read_csv('/content/제11회 산업통상자원부 공공데이터활용 BI공모전_빅데이터 분석 과제 5_데이터.csv')
+df = pd.read_csv('https://raw.githubusercontent.com/jyh11224/devday/main/%EC%A0%9C11%ED%9A%8C%20%EC%82%B0%EC%97%85%ED%86%B5%EC%83%81%EC%9E%90%EC%9B%90%EB%B6%80%20%EA%B3%B5%EA%B3%B5%EB%8D%B0%EC%9D%B4%ED%84%B0%ED%99%9C%EC%9A%A9%20BI%EA%B3%B5%EB%AA%A8%EC%A0%84_%EB%B9%85%EB%8D%B0%EC%9D%B4%ED%84%B0%20%EB%B6%84%EC%84%9D%20%EA%B3%BC%EC%A0%9C%205_%EB%8D%B0%EC%9D%B4%ED%84%B0.csv')
 df = df.sort_values(by=['일자', '발전소코드'])
 
 ## replace '-'
