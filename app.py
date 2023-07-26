@@ -20,7 +20,7 @@ import matplotlib.font_manager as fm
 # 모델링을 위한 패키지
 from sklearn.model_selection import train_test_split, cross_validate, cross_val_predict, KFold
 from sklearn import metrics
-!pip install tslearn
+# !pip install tslearn
 import tslearn
 from sklearn.metrics import silhouette_score
 from tslearn.clustering import TimeSeriesKMeans
