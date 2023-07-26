@@ -99,4 +99,4 @@ for i, code in enumerate(unique_codes[:num_plots]):
 axs[2][1].set_xlabel('datetime')
 axs[1][0].set_ylabel('발전량')
 plt.tight_layout()
-plt.show()
+st.pyplot.show()
