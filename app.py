@@ -63,8 +63,23 @@ def plot_power_plants(df_combined, num_plots):
     plt.tight_layout()
     st.pyplot(fig)
 
+def make_pivot(df_combined):
+    df_combined['hour'] = df_combined['datetime'].dt.hour
+    df_pivot = df_combined.pivot(index='datetime', columns='발전소코드', values='gap')
+    df_pivot = df_pivot.reset_index()
+    df_pivot["hour"] = df_pivot['datetime'].astype("datetime64").dt.hour
+    
+    df_pivot = df_pivot.drop(columns=['datetime']).groupby('hour').mean()
+    st.write(df_pivot)
+
+# 발전소 코드 리스트
+def make_plant(df_combined):
+    plant_list = df_combined['발전소코드'].tolist()
+    plant_list = list(set(plant_list))
+    plant_list.sort()
+
 # 특성 스케일링
-def stdscaler():
+def stdscaler(df_pivot):
     hours = df_pivot.index
     scaler = StandardScaler()
     
@@ -90,33 +105,20 @@ def main():
     numplots = 9
     plot_power_plants(df_combined, numplots)
 
+    make_pivot(df_combined)
+    
+    make_plant(df_combined)
+
+    stdscaler(df_pivot)
+    
+
 if __name__ == '__main__':
     main()
 
 ############################ 수정필요 ####################################
-df_combined['hour'] = df_combined['datetime'].dt.hour
-df_pivot = df_combined.pivot(index='datetime', columns='발전소코드', values='gap')
-df_pivot = df_pivot.reset_index()
-df_pivot["hour"] = df_pivot['datetime'].astype("datetime64").dt.hour
-
-df_pivot = df_pivot.drop(columns=['datetime']).groupby('hour').mean()
-st.write(df_pivot)
-
-# 발전소 코드 리스트
-plant_list = df_combined['발전소코드'].tolist()
-plant_list = list(set(plant_list))
-plant_list.sort()
-
-# 특성 스케일링
-hours = df_pivot.index
-scaler = StandardScaler()
-
-scaled_error_data = scaler.fit_transform(df_pivot)
 
 
-df_scaled = pd.DataFrame(scaled_error_data, columns=df_pivot.columns)
-df_scaled.set_index(hours, inplace=True)
-df_T_scaled = df_scaled.T
+
 
 max_clusters = 20
 
