@@ -8,6 +8,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import streamlit as st
+import datetime
 
 # Function to read and preprocess data
 def read_data():
@@ -63,11 +64,12 @@ def plot_power_plants(df_combined, num_plots):
     plt.tight_layout()
     st.pyplot(fig)
 
+
 def make_pivot(df_combined):
-    df_combined['hour'] = df_combined['datetime'].dt.hour
+    df_combined["hour"] = df_combined['datetime'].apply(lambda x: x.hour)
     df_pivot = df_combined.pivot(index='datetime', columns='발전소코드', values='gap')
     df_pivot = df_pivot.reset_index()
-    df_pivot["hour"] = df_pivot['datetime'].astype("datetime64").dt.hour
+    df_pivot["hour"] = df_pivot['datetime'].apply(lambda x: x.hour)
     
     df_pivot = df_pivot.drop(columns=['datetime']).groupby('hour').mean()
     st.write(df_pivot)
