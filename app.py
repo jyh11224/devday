@@ -37,7 +37,7 @@ def read_data():
 
 # Function to plot time series for each power plant
 def plot_power_plants(df_combined, num_plots):
-    unique_codes = df_combined['발전소코드'].unique()[:num_plots]
+    unique_codes = df_combined['발전소코드'].unique()
     num_rows = (num_plots - 1) // 3 + 1
     num_cols = min(num_plots, 3)
 
@@ -52,9 +52,11 @@ def plot_power_plants(df_combined, num_plots):
         axs[row, col].plot(df_subset.index, df_subset['실측'])
         axs[row, col].set_title(f'발전소 Code: {code}')
 
-    plt.xlabel('datetime')
+    axs[2][1].set_xlabel('datetime')
+    axs[1][0].set_ylabel('발전량')
     plt.tight_layout()
     st.pyplot(fig)
+
 
 def main():
     # Read and preprocess data
