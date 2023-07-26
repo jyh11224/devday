@@ -69,8 +69,7 @@ def main():
     # st.dataframe(df_combined)
 
     # Plot power plants
-    num_plots = st.slider('Number of Power Plants to Plot', min_value=1, max_value=9, value=3, step=1)
-    plot_power_plants(df_combined, num_plots)
+    plot_power_plants(df_combined, 9)
 
 if __name__ == '__main__':
     main()
