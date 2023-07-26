@@ -63,6 +63,18 @@ def plot_power_plants(df_combined, num_plots):
     plt.tight_layout()
     st.pyplot(fig)
 
+# 특성 스케일링
+def stdscaler():
+    hours = df_pivot.index
+    scaler = StandardScaler()
+    
+    scaled_error_data = scaler.fit_transform(df_pivot)
+    
+    
+    df_scaled = pd.DataFrame(scaled_error_data, columns=df_pivot.columns)
+    df_scaled.set_index(hours, inplace=True)
+    df_T_scaled = df_scaled.T
+
 
 def main():
     # Read and preprocess data
@@ -72,7 +84,7 @@ def main():
     st.title('Power Plant Time Series Visualization')
     
     # Show data table if needed
-    st.dataframe(df_combined)
+    st.write(df_combined)
 
     # Plot power plants
     numplots = 9
@@ -82,7 +94,7 @@ if __name__ == '__main__':
     main()
 
 ############################ 수정필요 ####################################
-df_combined["hour"] = df_combined['datetime'].dt.hour
+df_combined['hour'] = df_combined['datetime'].dt.hour
 df_pivot = df_combined.pivot(index='datetime', columns='발전소코드', values='gap')
 df_pivot = df_pivot.reset_index()
 df_pivot["hour"] = df_pivot['datetime'].astype("datetime64").dt.hour
@@ -91,7 +103,9 @@ df_pivot = df_pivot.drop(columns=['datetime']).groupby('hour').mean()
 st.write(df_pivot)
 
 # 발전소 코드 리스트
-plant_list = df_error['발전소코드'].tolist()
+plant_list = df_combined['발전소코드'].tolist()
+plant_list = list(set(plant_list))
+plant_list.sort()
 
 # 특성 스케일링
 hours = df_pivot.index
@@ -146,9 +160,9 @@ labels = km.fit_predict(df_T_scaled)
 cluster_count = math.ceil(math.sqrt(len(set(labels))))
 # A good rule of thumb is choosing k as the square root of the number of points in the training data set in kNN
 
-labels
+st.write(labels)
 score = silhouette_score(df_T_scaled, labels)
-print(score)
+st.write(score)
 
 plot_count = math.ceil(math.sqrt(len(set(labels))))
 
@@ -182,7 +196,7 @@ cluster_n = ["Cluster "+str(i) for i in range(len(set(labels)))]
 plt.figure(figsize=(15,10))
 plt.title("Cluster Distribution for KMeans")
 plt.bar(cluster_n,cluster_c)
-st.bar_chart(cluster_C)
+st.bar_chart(cluster_c)
 
 fancy_names_for_labels = [f"Cluster {label}" for label in labels]
 p = pd.DataFrame(zip(plant_list,fancy_names_for_labels),columns=["plant code","Cluster"]).sort_values(by="Cluster").set_index("plant code")
