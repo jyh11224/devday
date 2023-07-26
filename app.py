@@ -1,7 +1,7 @@
-sudo apt-get install fonts-nanum*
+# sudo apt-get install fonts-nanum*
 import matplotlib 
-matplotlib.font_manager._rebuild()
-sudo rm -rf ~/.cache/
+# matplotlib.font_manager._rebuild()
+# sudo rm -rf ~/.cache/
 
 import os
 import pandas as pd
