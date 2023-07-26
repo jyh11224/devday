@@ -72,7 +72,7 @@ def main():
     st.title('Power Plant Time Series Visualization')
     
     # Show data table if needed
-    # st.dataframe(df_combined)
+    st.dataframe(df_combined)
 
     # Plot power plants
     numplots = 9
